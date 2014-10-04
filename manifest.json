@@ -1,0 +1,25 @@
+{
+  "manifest_version": 2,
+
+  "name": "Tiger Attack",
+  "description": "This extension demonstrates a 'browser action' with kittens.",
+  "version": "1.0",
+
+  "browser_action": {
+    "default_icon": "icon.png",
+    "default_popup": "popup.html"
+  },
+  "permissions": [
+    "tabs",
+    "activeTab"
+  ],
+    "web_accessible_resources":[
+	"icon.png"],
+    "content_scripts": [
+    {
+      "matches": ["http://*/*","https://*/*","file:///*"],
+      "css":["mystyles.css"],
+      "js": ["myscript.js"]
+    }
+  ]
+}
