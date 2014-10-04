@@ -14,13 +14,12 @@
     "tabs",
     "activeTab"
   ],
-   
-  "web_accessible_resources":["icon.png"],
+  "web_accessible_resources":["/*.png"],
    
   "content_scripts": [
     {
       "matches": ["http://*/*","https://*/*","file:///*"], 
-      "js": ["myscript.js"]
+      "js": ["myscript.js","jquery-2.1.1.min.js"]
     }
   ]
 }
