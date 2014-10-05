@@ -890,18 +890,15 @@
       
         this.ctx.drawPlayer = function () {
             if (!THEPLAYER) {
-                //this.ctx = c.getContext("2d");
-                //var img = document.getElementById("Player.png");
-                this.drawImage("Player.png" , 36, 36);
-               // this.save();
-              //  this.translate(that.pos.x, that.pos.y);
-               // this.rotate(that.dir.angle());
-               // this.tracePoly(playerVerts);
-             //   this.fillStyle = "white";
-             //   this.fill();
-            //    this.tracePoly(playerVerts);
-           //     this.stroke();
-          //      this.restore();
+                this.save();
+               this.translate(that.pos.x, that.pos.y);
+                this.rotate(that.dir.angle());
+                this.tracePoly(playerVerts);
+               this.fillStyle = "white";
+               this.fill();
+               this.tracePoly(playerVerts);
+               this.stroke();
+               this.restore();
            }
             else {
                 this.save();
