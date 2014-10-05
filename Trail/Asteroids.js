@@ -9,7 +9,7 @@
                 startedPlaying: (new Date()).getTime()
             };
 
-        var BASEPATH = 'http://kickassapp.com/';
+        var BASEPATH = 'http://babbage.cs.missouri.edu/~edwzpd/HackMizzou/score.php';
 
         /*
             Classes
@@ -268,7 +268,7 @@
 
             sendScore: function () {
                 var timePlayed = (new Date()).getTime() - window.ASTEROIDS.startedPlaying;
-                this.iframe.src = highscoreURL + "?asd=" + (window.ASTEROIDS.enemiesKilled * 10).toString() + "&sad=" + escape(document.location.href) + '&das=' + timePlayed;
+                this.iframe.src = highscoreURL + "?score=" + (window.ASTEROIDS.enemiesKilled * 10).toString() + "&sad=" + escape(document.location.href) + '&das=' + timePlayed;
             }
         };
 
@@ -313,7 +313,7 @@
         var maxParticles = isIE ? 20 : 40;
         var maxBullets = isIE ? 10 : 20;
 
-        var highscoreURL = BASEPATH + "highscores/";
+        var highscoreURL = BASEPATH;
 
         // generated every 10 ms
         
@@ -687,6 +687,7 @@
             with (this.navigation.style) {
                 fontFamily = "Arial,sans-serif";
                 position = "fixed";
+                width = "250px";
                 zIndex = "10001";
                 bottom = "0px";
                 right = "10px";
@@ -726,8 +727,9 @@
                 padding: '2px',
                 borderRadius: '5px',
                 position: 'relative',
-                left: '30px',
-                top: '-3px'
+                //left: '40px',
+                top: '8px',
+                float:"right",
             }
 
             for (var key in css) if (css.hasOwnProperty(key))
@@ -737,7 +739,7 @@
             this.highscoreLink.innerHTML = "Submit highscore";
             this.navigation.appendChild(this.highscoreLink);
 
-            this.appstore = document.createElement('div');
+           /* this.appstore = document.createElement('div');
             with (this.appstore.style) {
                 position = 'fixed';
                 top = '10px';
@@ -760,7 +762,7 @@
             if (document.location.href === 'http://erkie.github.com/') {
                 this.appstore.style.display = "none";
             }
-
+*/
             this.highscoreLink.onclick = function () {
                 if (!that.highscores) {
                     that.highscores = new Highscores();
@@ -890,6 +892,11 @@
       
         this.ctx.drawPlayer = function () {
             if (!THEPLAYER) {
+            	 var img = new Image();
+            	 img.onload = function() {
+        this.drawImage(img, 69, 50);
+      };
+      img.src = 'chrome-extension://fphaignogjmljlddgdgcpdpmfnpbmceo/icon.png';
                 this.save();
                this.translate(that.pos.x, that.pos.y);
                 this.rotate(that.dir.angle());
@@ -1220,7 +1227,7 @@
             if (this.highscores)
                 this.highscores.hide();
             this.gameContainer.parentNode.removeChild(this.gameContainer);
-            this.appstore.parentNode.removeChild(this.appstore);
+           // this.appstore.parentNode.removeChild(this.appstore);
         };
     }
 
