@@ -1,6 +1,6 @@
 
 // See license: https://github.com/erkie/erkie.github.com/blob/master/README
-
+//document.write('<script type="text/javascript" src="sprite.js" ></script>');
 (function () {
     function Asteroids() {
         if (!window.ASTEROIDS)
@@ -887,19 +887,23 @@
             THEPLAYER = document.createElement('img');
             THEPLAYER.src = window.KICKASSIMG;
         }
-
+      
         this.ctx.drawPlayer = function () {
             if (!THEPLAYER) {
-                this.save();
-                this.translate(that.pos.x, that.pos.y);
-                this.rotate(that.dir.angle());
-                this.tracePoly(playerVerts);
-                this.fillStyle = "white";
-                this.fill();
-                this.tracePoly(playerVerts);
-                this.stroke();
-                this.restore();
-            } else {
+                //this.ctx = c.getContext("2d");
+                //var img = document.getElementById("Player.png");
+                this.drawImage("Player.png" , 36, 36);
+               // this.save();
+              //  this.translate(that.pos.x, that.pos.y);
+               // this.rotate(that.dir.angle());
+               // this.tracePoly(playerVerts);
+             //   this.fillStyle = "white";
+             //   this.fill();
+            //    this.tracePoly(playerVerts);
+           //     this.stroke();
+          //      this.restore();
+           }
+            else {
                 this.save();
                 this.translate(that.pos.x, that.pos.y);
                 this.rotate(that.dir.angle() + Math.PI / 2);
@@ -970,7 +974,7 @@
         var isRunning = true;
         var lastUpdate = new Date().getTime();
         var forceChange = false;
-
+   
         this.update = function () {
             // ==
             // logic
@@ -1000,6 +1004,15 @@
                 this.vel.mul(0.96);
             }
 
+            if ((this.keysPressed[code('down')]) || (this.keysPressed[code('S')])) {
+                this.vel.add(this.dir.mulNew(-acc * tDelta));
+
+                drawFlame = true;
+            } else {
+                // decrease speed of player
+                this.vel.mul(0.96);
+            }
+
             // rotate counter-clockwise
             if ((this.keysPressed[code('left')]) || (this.keysPressed[code('A')])) {
                 forceChange = true;
@@ -1014,12 +1027,12 @@
 
             // fire
             if (this.keysPressed[code(' ')] && nowTime - this.firedAt > timeBetweenFire) {
-                this.bullets.unshift({
+                /*this.bullets.unshift({
                     'dir': this.dir.cp(),
                     'pos': this.pos.cp(),
                     'startVel': this.vel.cp(),
                     'cameAlive': nowTime
-                });
+                });*/
 
                 this.firedAt = nowTime;
 
@@ -1061,11 +1074,13 @@
 
             // check bounds X of player, if we go outside we scroll accordingly
             if (this.pos.x > w) {
-                window.scrollTo(this.scrollPos.x + 50, this.scrollPos.y);
-                this.pos.x = 0;
+                this.pos.x = this.pos.x.clamp(0, w - this.width);
+                //window.scrollTo(this.scrollPos.x + 50, this.scrollPos.y);
+                //this.pos.x = 0;
             } else if (this.pos.x < 0) {
-                window.scrollTo(this.scrollPos.x - 50, this.scrollPos.y);
-                this.pos.x = w;
+                this.pos.x = this.pos.x.clamp(0, w + this.width);
+               // window.scrollTo(this.scrollPos.x - 50, this.scrollPos.y);
+               // this.pos.x = w;
             }
 
             // check bounds Y
