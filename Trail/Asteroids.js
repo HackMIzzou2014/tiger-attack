@@ -316,7 +316,8 @@
         var highscoreURL = BASEPATH + "highscores/";
 
         // generated every 10 ms
-       this.flame = { r: [], y: [] };
+        
+        this.flame = { r: [], y: [] };
 
         // blink style
         this.toggleBlinkStyle = function () {
@@ -392,21 +393,21 @@
 
             createFlames = function () {
                 // Firstly create red flames
-               that.flame.r = [[-1 * halfPlayerHeight, -1 * halfR]];
-                that.flame.y = [[-1 * halfPlayerHeight, -1 * halfY]];
+                that.flame.r = [[0 , 0]];//[[-1 * halfPlayerHeight, -1 * halfR]];
+                that.flame.y = [[0 , 0]];//[[-1 * halfPlayerHeight, -1 * halfY]];
 
                 for (var x = 0; x < rWidth; x += rIncrease) {
-                    that.flame.r.push([-random(2, 7) - halfPlayerHeight, x - halfR]);
+                  //  that.flame.r.push([-random(2, 7) - halfPlayerHeight, x - halfR]);
                 }
 
-                that.flame.r.push([-1 * halfPlayerHeight, halfR]);
+               // that.flame.r.push([-1 * halfPlayerHeight, halfR]);
 
                 // ... And now the yellow flames
                 for (var x = 0; x < yWidth; x += yIncrease) {
-                    that.flame.y.push([-random(2, 7) - halfPlayerHeight, x - halfY]);
+                    //that.flame.y.push([-random(2, 7) - halfPlayerHeight, x - halfY]);
                 }
 
-                that.flame.y.push([-1 * halfPlayerHeight, halfY]);
+               // that.flame.y.push([-1 * halfPlayerHeight, halfY]);
             };
         })();
 
@@ -918,11 +919,11 @@
             }
         };
 
-        var randomParticleColor = function () {
-            return (['red', 'yellow'])[random(0, 1)];
-        };
+        //var randomParticleColor = function () {
+          //  return (['red', 'yellow'])[random(0, 1)];
+        //};
 
-        this.ctx.drawParticles = function (particles) {
+        /*this.ctx.drawParticles = function (particles) {
             var oldColor = this.fillStyle;
 
             for (var i = 0; i < particles.length; i++) {
@@ -931,7 +932,7 @@
             }
 
             this.fillStyle = oldColor;
-        };
+        };*/
 
         this.ctx.drawFlames = function (flame) {
             if (THEPLAYER) return;
@@ -1075,8 +1076,18 @@
                 window.scrollTo(this.scrollPos.x, this.scrollPos.y - h * 0.75);
                 this.pos.y = h;
             }
-
+            var murdered = getElementFromPoint(this.pos.x, this.pos.y);
+            if (
+                murdered && murdered.tagName &&
+                indexOf(ignoredTypes, murdered.tagName.toUpperCase()) == -1 &&
+                hasOnlyTextualChildren(murdered) && murdered.className != "ASTEROIDSYEAH"
+            ) {
+                didKill = true;
+                addParticles(this.pos);
+                this.dying.push(murdered);
+            }
             // update positions of bullets
+            
             for (var i = this.bullets.length - 1; i >= 0; i--) {
                 // bullets should only live for 2 seconds
                 if (nowTime - this.bullets[i].cameAlive > 2000) {
@@ -1091,17 +1102,17 @@
                 boundsCheck(this.bullets[i].pos);
 
                 // check collisions
-                var murdered = getElementFromPoint(this.bullets[i].pos.x, this.bullets[i].pos.y);
+                var murdered = getElementFromPoint(this.pos.x, this.pos.y);
                 if (
                     murdered && murdered.tagName &&
                     indexOf(ignoredTypes, murdered.tagName.toUpperCase()) == -1 &&
                     hasOnlyTextualChildren(murdered) && murdered.className != "ASTEROIDSYEAH"
                 ) {
                     didKill = true;
-                    addParticles(this.bullets[i].pos);
+                    addParticles(this.pos);
                     this.dying.push(murdered);
 
-                    this.bullets.splice(i, 1);
+                   // this.bullets.splice(i, 1);
                     continue;
                 }
             }
@@ -1165,9 +1176,9 @@
                 }
 
                 // draw particles
-                if (this.particles.length) {
-                    this.ctx.drawParticles(this.particles);
-                }
+               // if (this.particles.length) {
+                 //   this.ctx.drawParticles(this.particles);
+                //}
             }
             this.lastPos = this.pos;
             forceChange = false;
